@@ -391,7 +391,6 @@ $(document).ready(function(){
 		location.href="/dwp/downloadPdf?tableData=" + tableStr + "&transactionId=" + transactionId;
 	}
 	
-
 	
 
 </script>
