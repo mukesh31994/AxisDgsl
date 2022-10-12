@@ -68,8 +68,8 @@ public class DwpAclAlconoteService {
 			for (int i = 0; i < lJSONArray.length(); i++) {
 				JSONObject lRow = lJSONArray.getJSONObject(i);
 				System.out.println(lRow);
-				tableTemplate += "<tr><td>"+lRow.getString("status")+"</td><td>" +lRow.getString("range").replace("<", "&lt;").replace(">", "&gt;")+"</td><td>"+lRow.getString("tenure")+"</td><td>"+lRow.getString("currentValue")+"</td><td>"+lRow.getString("newValue")+"</td><td>"
-						+lRow.getString("rateCode")+" : " + lRow.getString("currency") + "</td><td>"+lRow.getString("sentBy")+"</td><td>"+lRow.getString("sentTo")+"</td></tr>";
+				tableTemplate += "<tr><td>"+lRow.get("status")+"</td><td>" +lRow.getString("range").replace("<", "&lt;").replace(">", "&gt;")+"</td><td>"+lRow.get("tenure")+"</td><td>"+lRow.get("currentValue")+"</td><td>"+lRow.get("newValue")+"</td><td>"
+						+lRow.get("rateCode")+" : " + lRow.get("currency") + "</td><td>"+lRow.getString("sentBy")+"</td><td>"+lRow.getString("sentTo")+"</td></tr>";
 			}
 			tableTemplate += "</tbody></table>";
 		} catch (JSONException e) {
