@@ -85,7 +85,7 @@ public class FileService {
 			 */
 			
 			// Create Sub Folder
-			String parentFolderPath = ReadPropertyFile.getInstance().getPropConst().getProperty("documentClassPath");
+			String parentFolderPath = ReadPropertyFile.getInstance().getAlconoteConstantProperty().getProperty("documentClassPath");
 			com.filenet.api.core.Folder parentFolder = Factory.Folder.fetchInstance(objStore, parentFolderPath, null);
 
 			boolean newFoldercreate = true;

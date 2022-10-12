@@ -18,7 +18,7 @@ public class FileUtility {
 		String lFileLocation = "";
 		try {
 			logger.info("Inside saveFileToFolder");
-			String fileLoc = ReadPropertyFile.getInstance().getPropConst().getProperty("filePath")
+			String fileLoc = ReadPropertyFile.getInstance().getAlconoteConstantProperty().getProperty("filePath")
 					+ pFile.getOriginalFilename();
 			logger.info("File Location : " + fileLoc);
 			File newFile = new File(fileLoc);
@@ -40,7 +40,7 @@ public class FileUtility {
 	
 	public void deleteFolder() {
 		logger.info("Inside deleteFolder()");
-		File directory = new File(ReadPropertyFile.getInstance().getPropConst().getProperty("filePath"));
+		File directory = new File(ReadPropertyFile.getInstance().getAlconoteConstantProperty().getProperty("filePath"));
 
 		// make sure directory exists
 		if (!directory.exists()) {
@@ -48,7 +48,7 @@ public class FileUtility {
 			try {
 
 				File folderDirectory = new File(
-						ReadPropertyFile.getInstance().getPropConst().getProperty("filePath"));
+						ReadPropertyFile.getInstance().getAlconoteConstantProperty().getProperty("filePath"));
 				delete(folderDirectory);
 
 			} catch (IOException e) {
@@ -67,7 +67,7 @@ public class FileUtility {
 				try {
 
 					File folderDirectory = new File(
-							ReadPropertyFile.getInstance().getPropConst().getProperty("filePath"));
+							ReadPropertyFile.getInstance().getAlconoteConstantProperty().getProperty("filePath"));
 					delete(folderDirectory);
 
 				} catch (IOException e1) {
