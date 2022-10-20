@@ -42,6 +42,22 @@ body {
 	text-decoration: none;
 	cursor: pointer;
 }
+
+table, th, td {
+	border: 1px solid gray;
+	border-collapse: collapse;
+}
+
+th {
+	color: white;
+	background-color: #AE275F;
+	text-align: center;
+	vertical-align: center;
+}
+
+tr:nth-child(even) {
+	background-color: #dddddd;
+}
 </style>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" />
@@ -213,6 +229,7 @@ var tableData = [{
 	"spread": false,
 	"changed": false
 }];
+
 $(document).ready(function(){
 	
 	$(".custom-file-input").on("change", function() {
@@ -226,11 +243,14 @@ $(document).ready(function(){
   });
   
   function setModalData(){
+	  var tableStr = encodeURIComponent(JSON.stringify(tableData));
+	  
 	  $.ajax({
 			url : "/dwp/getModalData",
 			type : "POST",
 			data : {
-				"transactionId" : transactionId
+				"transactionId" : transactionId,
+				"transactionData" : JSON.stringify(tableData)
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
 				console.log("textStatus : " + textStatus);
@@ -251,7 +271,6 @@ $(document).ready(function(){
   
   
   $("#UplodeFile").click(function(){
-	alert("dsd");
 		var formData = new FormData(document.getElementById("fileinfo"));
 		formData.append("label", "WEBUPLOAD");
 		
@@ -283,13 +302,15 @@ $(document).ready(function(){
   function setUpModulBody(dataArr)	{
 	var modelBodyHeadStr = "";
 	var modelBodyStr = "";
+	var Count = 0;
 	for (let element of dataArr) {
 		if(element.dataId == 'data1')	{
 			modelBodyHeadStr= "<div id=\""+element.dataId+"\"><div style=\"position:absolute; width:100%; display: flex;justify-content: center;\"><h5 id=\"Header_"+element.dataId+"\">"+element.header+"</h5></div><BR><BR><div id=\"Body_"+element.dataId+"\">"+element.body+"</div></div><BR>"
 		} else	{
-			var card = "<div id=\""+element.dataId+"\"><div class=\"card\"><div class=\"card-header\" id=\"heading"+element.dataId+"\"><h5 class=\"mb-0\"><button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse"+element.dataId+"\" aria-expanded=\"true\" aria-controls=\"collapse"+element.dataId+"\" id=\"Header_"+element.dataId+"\">"+element.header+"</button><button type=\"button\" class=\"btn btn-outline-secondary rounded-circle pull-right\" onclick=\"editData(\'"+element.dataId+"\')\" style=\"padding-bottom: 12px;padding-top: 12px;\" ><i class=\"fa fa-edit\"></i></button></h5></div><div id=\"collapse"+element.dataId+"\" class=\"collapse\" aria-labelledby=\"heading"+element.dataId+"\" data-parent=\"#accordion\"><div class=\"card-body tabEdit\" id=\"Body_"+element.dataId+"\">"+element.body+"</div></div></div></div><Br>"
+			var card = "<div id=\""+element.dataId+"\"><div class=\"card\"><div class=\"card-header\" id=\"heading"+element.dataId+"\"><h5 class=\"mb-0\"><button class=\"btn btn-link\" data-toggle=\"collapse\" data-target=\"#collapse"+element.dataId+"\" aria-expanded=\"true\" aria-controls=\"collapse"+element.dataId+"\" id=\"Header_"+element.dataId+"\">"+element.header+"</button><button type=\"button\" class=\"btn btn-outline-secondary rounded-circle pull-right\" onclick=\"editData(\'"+element.dataId+"\')\" style=\"padding-bottom: 12px;padding-top: 12px;\" ><i class=\"fa fa-edit\"></i></button></h5></div><div id=\"collapse"+element.dataId+"\" class=\"collapse\" aria-labelledby=\"heading"+element.dataId+"\" data-parent=\"#accordion\"><div class=\"card-body tabEdit\" id=\"Body_"+element.dataId+"\" style=\"overflow-x: scroll;\">"+element.body+"</div></div></div></div><Br>"
 			modelBodyStr += card;
 		}
+		Count++;
 	}
 	var modelBody = modelBodyHeadStr + modelBodyStr;
 	modelBody = modelBody.replace(new RegExp(",@", 'g'), "<br />");
@@ -391,7 +412,10 @@ $(document).ready(function(){
 		location.href="/dwp/downloadPdf?tableData=" + tableStr + "&transactionId=" + transactionId;
 	}
 	
-	
+	function viewDocumnet() {
+		var documentId = encodeURIComponent(JSON.stringify("{A30F0B65-2D5C-CB7D-86C8-838EEDF00000}"));
+		window.open("/dwp/viewDocument?documentId=" + documentId);
+	}
 
 </script>
 
@@ -407,52 +431,104 @@ $(document).ready(function(){
 	<div class="tableDiv"
 		style="width: 100%; display: flex; justify-content: center;"
 		id="tableDiv">
-		<table id="example" class="table table-hover" style="width: 70%;">
+		<table class="table table-hover" style="width: 90%;">
 			<thead>
 				<tr>
-					<th>Name</th>
-					<th>Position</th>
-					<th>Office</th>
-					<th>Age</th>
-					<th>Start date</th>
-					<th>Salary</th>
+					<th>Status</th>
+					<th>Range</th>
+					<th>Tenure</th>
+					<th>Current Value</th>
+					<th>New Value</th>
+					<th>RateCode / Currency</th>
+					<th>Send By</th>
+					<th>Sent To</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>Tiger Nixon</td>
-					<td>System Architect</td>
-					<td>Edinburgh</td>
-					<td>61</td>
-					<td>2011-04-25</td>
-					<td>$320,800</td>
+					<td>SENT TO CHECKER</td>
+					<td>&lt;2C</td>
+					<td>7d-14d</td>
+					<td>0</td>
+					<td>1.2</td>
+					<td>TDSTF : INR</td>
+					<td>Om Dikondwar(1)</td>
+					<td>Om Dikondwar(1)</td>
 				</tr>
 				<tr>
-					<td>Garrett Winters</td>
-					<td>Accountant</td>
-					<td>Tokyo</td>
-					<td>63</td>
-					<td>2011-07-25</td>
-					<td>$170,750</td>
+					<td>SENT TO CHECKER</td>
+					<td>&lt;2C</td>
+					<td>7d-14d</td>
+					<td>0</td>
+					<td>1.5</td>
+					<td>TD : INR</td>
+					<td>Om Dikondwar(1)</td>
+					<td>SENT TO CHECKER</td>
 				</tr>
 				<tr>
-					<td>Garrett Winters</td>
-					<td>Accountant</td>
-					<td>Tokyo</td>
-					<td>63</td>
-					<td>2011-07-25</td>
-					<td>$170,750</td>
+					<td>SENT TO CHECKER</td>
+					<td>5C&lt;10C</td>
+					<td>7d-14d</td>
+					<td>1.1</td>
+					<td>1.6</td>
+					<td>HVTD : INR</td>
+					<td>Om Dikondwar(1)</td>
+					<td>SENT TO CHECKER</td>
 				</tr>
 				<tr>
-					<td>Garrett Winters</td>
-					<td>Accountant</td>
-					<td>Tokyo</td>
-					<td>63</td>
-					<td>2011-07-25</td>
-					<td>$170,750</td>
+					<td>SENT TO CHECKER</td>
+					<td>2C&lt;4.91C</td>
+					<td>7d-14d</td>
+					<td>0</td>
+					<td>0</td>
+					<td>TD : INR</td>
+					<td>John Doe(1328)</td>
+					<td>SENT TO CHECKER</td>
+				</tr>
+				<tr>
+					<td>SENT TO CHECKER</td>
+					<td>4.91C&lt;4.92C</td>
+					<td>7d-14d</td>
+					<td>0</td>
+					<td>0</td>
+					<td>TD : INR</td>
+					<td>John Doe(1328)</td>
+					<td>SENT TO CHECKER</td>
+				</tr>
+				<tr>
+					<td>SENT TO CHECKER</td>
+					<td>4.91C&lt;4.92C</td>
+					<td>15d-29d</td>
+					<td>0</td>
+					<td>4</td>
+					<td>TD : INR</td>
+					<td>Om Dikondwar(1)</td>
+					<td>SENT TO CHECKER</td>
+				</tr>
+				<tr>
+					<td>SENT TO CHECKER</td>
+					<td>2C&lt;4.91C</td>
+					<td>15d-29d</td>
+					<td>0</td>
+					<td>3</td>
+					<td>TD : INR</td>
+					<td>Om Dikondwar(1)</td>
+					<td>SENT TO CHECKER</td>
+				</tr>
+				<tr>
+					<td>SENT TO CHECKER</td>
+					<td>&lt;2C</td>
+					<td>15d-29d</td>
+					<td>0</td>
+					<td>2</td>
+					<td>TD : INR</td>
+					<td>Om Dikondwar(1)</td>
+					<td>SENT TO CHECKER</td>
 				</tr>
 			</tbody>
 		</table>
+
+
 	</div>
 	<BR>
 	<BR>
@@ -460,7 +536,11 @@ $(document).ready(function(){
 		<button id="openModal" type="button" class="btn btn-primary"
 			style="margin-right: 30px;">Open Modal</button>
 
-		<button type="button" class="btn btn-success" onclick="download()">Download</button>
+		<button type="button" class="btn btn-success" onclick="download()"
+			style="margin-right: 30px;">Download</button>
+
+		<button type="button" class="btn btn-warning" onclick="viewDocumnet()">View
+			Document</button>
 	</div>
 
 	<!-- The Modal -->
@@ -498,18 +578,20 @@ $(document).ready(function(){
 	<br>
 	<br>
 	<br>
-	<form id="fileinfo" name="fileinfo">
-		<div class="custom-file mb-3">
-			<input type="file" class="custom-file-input" id="customFile"
-				name="filename"> <label class="custom-file-label"
-				for="customFile">Choose file</label>
-		</div>
-		<br> <br> <br>
-		<div style="width: 100%; display: flex; justify-content: center;">
-			<button id="UplodeFile" type="button" class="btn btn-primary">Uplode
-				File</button>
-		</div>
+	<div style="width: 100%; display: flex; justify-content: center;">
+		<form id="fileinfo" name="fileinfo">
+			<div class="custom-file mb-3">
+				<input type="file" class="custom-file-input" id="customFile"
+					name="filename"> <label class="custom-file-label"
+					for="customFile">Choose file</label>
+			</div>
+			<br> <br> <br>
+			<div style="width: 100%; display: flex; justify-content: center;">
+				<button id="UplodeFile" type="button" class="btn btn-primary">Uplode
+					File</button>
+			</div>
 
-	</form>
+		</form>
+	</div>
 </body>
 </html>

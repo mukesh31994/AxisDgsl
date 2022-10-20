@@ -34,7 +34,7 @@ public class DwpAclFileController {
 
 	@Autowired
 	FileService fileService;
-	
+
 	@CrossOrigin
 	@PostMapping(value = "/uplodeFile")
 	public @ResponseBody String uplodeFile(@RequestBody MultipartFile filename,
@@ -48,6 +48,7 @@ public class DwpAclFileController {
 			lFileUtility.deleteFolder();
 		} catch (Exception e) {
 			e.printStackTrace();
+			return e.getMessage();
 		}
 		return lDocumentId;
 	}
@@ -56,7 +57,9 @@ public class DwpAclFileController {
 	@GetMapping(value = "/viewDocument")
 	public ResponseEntity<StreamingResponseBody> viewDocument(@RequestParam("documentId") String documentId)
 			throws Exception {
-		documentId = "{A30F0B65-2D5C-CB7D-86C8-838EEDF00000}";
+		// documentId = "{A30F0B65-2D5C-CB7D-86C8-838EEDF00000}";
+
+		System.out.println("documentId ::: " + documentId);
 
 		Document lDocument = fileService.getDocument(documentId);
 		String lFileName = lDocument.get_Name();

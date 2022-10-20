@@ -43,7 +43,8 @@ public class DwpAclAlconoteService {
 			htmlContent = htmlContent.replaceAll(",@", "<br />");
 			htmlContent = htmlContent.replaceAll("<br>", "<br />");
 
-			htmlContent = htmlContent.replace("{TABLE-DATA}", getTableStringForHtml(tableStr));
+			// htmlContent = htmlContent.replace("{TABLE-DATA}",
+			// getTableStringForHtml(tableStr));
 
 			System.out.println(htmlContent);
 
@@ -61,15 +62,19 @@ public class DwpAclAlconoteService {
 		return byteArrayInputStream;
 	}
 
-	private CharSequence getTableStringForHtml(String tableStr) {
-		String tableTemplate = "<table> <thead><tr><th>Status</th><th>Range</th><th>Tenure</th><th>Current Value</th><th>New Value</th><th>RateCode / Currency</th><th>Send By</th><th>Sent To</th></tr> </thead><tbody>";
+	public CharSequence getTableStringForHtml(String tableStr) {
+		String tableTemplate = "<table><thead><tr><th>Status</th><th>Range</th><th>Tenure</th><th>Current Value</th><th>New Value</th><th>RateCode / Currency</th><th>Send By</th><th>Sent To</th></tr></thead><tbody>";
 		try {
 			JSONArray lJSONArray = new JSONArray(tableStr);
 			for (int i = 0; i < lJSONArray.length(); i++) {
 				JSONObject lRow = lJSONArray.getJSONObject(i);
 				System.out.println(lRow);
-				tableTemplate += "<tr><td>"+lRow.get("status")+"</td><td>" +lRow.getString("range").replace("<", "&lt;").replace(">", "&gt;")+"</td><td>"+lRow.get("tenure")+"</td><td>"+lRow.get("currentValue")+"</td><td>"+lRow.get("newValue")+"</td><td>"
-						+lRow.get("rateCode")+" : " + lRow.get("currency") + "</td><td>"+lRow.getString("sentBy")+"</td><td>"+lRow.getString("sentTo")+"</td></tr>";
+				tableTemplate += "<tr><td>" + lRow.get("status") + "</td><td>"
+						+ lRow.getString("range").replace("<", "&lt;").replace(">", "&gt;") + "</td><td>"
+						+ lRow.get("tenure") + "</td><td>" + lRow.get("currentValue") + "</td><td>"
+						+ lRow.get("newValue") + "</td><td>" + lRow.get("rateCode") + " : " + lRow.get("currency")
+						+ "</td><td>" + lRow.getString("sentBy") + "</td><td>" + lRow.getString("sentTo")
+						+ "</td></tr>";
 			}
 			tableTemplate += "</tbody></table>";
 		} catch (JSONException e) {

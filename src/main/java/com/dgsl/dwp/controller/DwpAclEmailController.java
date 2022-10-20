@@ -1,7 +1,5 @@
 package com.dgsl.dwp.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +21,17 @@ public class DwpAclEmailController {
 	@PostMapping("/sendEmail")
 	public String sendMail(@RequestBody DwpAclEmailTemplate dwpAclEmailTemplate) {
 
-		System.out.println("DwpAclEmailTemplate ::: " + dwpAclEmailTemplate);
-		DwpAclEmailTemplate lDwpAclEmailTemplate = dwpAclEmailerService.getEmailTemplate(
-				dwpAclEmailTemplate.getToStage(), dwpAclEmailTemplate.getFromStage(), dwpAclEmailTemplate.getAction());
-		System.out.println("CONTROLLER ::: " + lDwpAclEmailTemplate);
-		String status = dwpAclEmailerService.sendMail(lDwpAclEmailTemplate);
+		String status = null;
+		try {
+			System.out.println("DwpAclEmailTemplate ::: " + dwpAclEmailTemplate);
+			DwpAclEmailTemplate lDwpAclEmailTemplate = dwpAclEmailerService.getEmailTemplate(
+					dwpAclEmailTemplate.getToStage(), dwpAclEmailTemplate.getFromStage(),
+					dwpAclEmailTemplate.getAction());
+			System.out.println("CONTROLLER ::: " + lDwpAclEmailTemplate);
+			status = dwpAclEmailerService.sendMail(lDwpAclEmailTemplate);
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 
 		return status;
 	}

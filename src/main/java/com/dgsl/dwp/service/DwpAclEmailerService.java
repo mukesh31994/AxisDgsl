@@ -37,23 +37,10 @@ public class DwpAclEmailerService {
 		return dwpEmailTemplateRepository.findByToStageAndFromStageAndAction(toStep, fromStep, action);
 	}
 
-	public String sendMail(DwpAclEmailTemplate pDwpAclEmailTemplate) {
+	public String sendMail(DwpAclEmailTemplate pDwpAclEmailTemplate) throws Exception {
 		System.out.println("In sendMail");
 
 		try {
-//			SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//			System.out.println("Sender : " + pDwpAclEmailTemplate.getFromMail());
-//
-//			mailMessage.setFrom(pDwpAclEmailTemplate.getFromMail());
-//			mailMessage.setTo(pDwpAclEmailTemplate.getToMail().split(","));
-//			if (pDwpAclEmailTemplate.getCc() != null && !pDwpAclEmailTemplate.getCc().equals(""))
-//				mailMessage.setCc(pDwpAclEmailTemplate.getCc().split(","));
-//			mailMessage.setText(createMailBody(pDwpAclEmailTemplate.getBody()));
-//			mailMessage.setSubject(pDwpAclEmailTemplate.getSubject());
-//
-//			System.out.println("Sending Mail");
-//			javaMailSender.send(mailMessage);
 
 			InternetAddress[] parsed;
 			try {
@@ -77,8 +64,7 @@ public class DwpAclEmailerService {
 
 		} catch (MailException | IllegalArgumentException | JSONException | JsonProcessingException
 				| MessagingException e) {
-			e.printStackTrace();
-
+			throw e;
 		}
 		return "Mail Sent Successfully...";
 
